@@ -34,7 +34,7 @@ function loadGame() {
         clickPower = data.clickPower || 1;
         autoRate = data.autoRate || 0;
         clickPrice = data.clickPrice || 50;
-        autoPrice = data.autoPrice || 120;
+        autoPrice = data.autoPrice || 75;
         polloPurchased = data.polloPurchased || false;
         autoStarted = data.autoStarted || false;
         
