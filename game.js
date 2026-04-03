@@ -5,6 +5,7 @@ let clickPrice = 50;
 let autoPrice = 75;
 let polloPurchased = false;
 let tokitoPurchased = false;
+let mcPurchased = false;
 let autoStarted = false;
 let gameLoaded = false;
 
@@ -23,6 +24,7 @@ function saveGame() {
         autoPrice: autoPrice,
         polloPurchased: polloPurchased,
         tokitoPurchased: tokitoPurchased,
+        mcPurchased: mcPurchased,
         autoStarted: autoStarted
     };
     localStorage.setItem('tomiokaClickerSave', JSON.stringify(gameData));
@@ -39,6 +41,7 @@ function loadGame() {
         autoPrice = data.autoPrice || 75;
         polloPurchased = data.polloPurchased || false;
         tokitoPurchased = data.tokitoPurchased || false;
+        mcPurchased = data.mcPurchased || false;
         autoStarted = data.autoStarted || false;
         
         if (document.getElementById('price-click')) {
@@ -58,6 +61,12 @@ function loadGame() {
             document.getElementById('tokito-side').classList.add('unlocked');
             const shopTokitoCard = document.getElementById('shop-tokito');
             if (shopTokitoCard) shopTokitoCard.style.display = 'none';
+        }
+        
+        if (mcPurchased) {
+            document.getElementById('mc-side').classList.add('unlocked');
+            const shopMcCard = document.getElementById('shop-mc');
+            if (shopMcCard) shopMcCard.style.display = 'none';
         }
         
         if (autoStarted) {
@@ -140,6 +149,7 @@ function updateCardStates() {
     const shopAutoCard = document.getElementById('shop-auto');
     const shopPolloCard = document.getElementById('shop-pollo');
     const shopTokitoCard = document.getElementById('shop-tokito');
+    const shopMcCard = document.getElementById('shop-mc');
     
     if (clickCard) clickCard.classList.toggle('disabled', yen < clickPrice);
     if (autoCard) autoCard.classList.toggle('disabled', yen < autoPrice);
@@ -150,6 +160,9 @@ function updateCardStates() {
     }
     if (!tokitoPurchased && shopTokitoCard) {
         shopTokitoCard.classList.toggle('disabled', yen < 2000);
+    }
+    if (!mcPurchased && shopMcCard) {
+        shopMcCard.classList.toggle('disabled', yen < 10000);
     }
 }
 
@@ -217,6 +230,16 @@ function buyUpgrade(type) {
             const shopTokitoCard = document.getElementById('shop-tokito');
             if (shopTokitoCard) shopTokitoCard.style.display = 'none';
             autoRate += 10;
+            updateDisplay();
+        }
+    } else if (type === 'mc') {
+        if (!mcPurchased && yen >= 10000) {
+            yen -= 10000;
+            mcPurchased = true;
+            document.getElementById('mc-side').classList.add('unlocked');
+            const shopMcCard = document.getElementById('shop-mc');
+            if (shopMcCard) shopMcCard.style.display = 'none';
+            clickPower += 20;
             updateDisplay();
         }
     }

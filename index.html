@@ -279,6 +279,22 @@
             display: block;
         }
 
+        .mc-side {
+            position: absolute;
+            bottom: -140px;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: pulse-glow 3s ease-in-out infinite;
+            display: none;
+        }
+
+        .mc-side.unlocked {
+            display: block;
+        }
+
         .pollo-side.unlocked {
             display: block;
         }
@@ -532,6 +548,11 @@
                         <div class="shop-name">Tokito +10 Auto</div>
                         <div class="shop-price">2000 ¥</div>
                     </div>
+                    <div class="shop-card" id="shop-mc" onclick="buyUpgrade('mc')">
+                        <div class="shop-icon"><img src="TerroresDelMCDonald`s.jpeg" alt="MCDonald's"></div>
+                        <div class="shop-name">MCDonald's +20</div>
+                        <div class="shop-price">10000 ¥</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -549,6 +570,7 @@
                 <img src="Tomioka.jpg" alt="Giyu Tomioka" class="tomioka-image">
             </div>
             <img src="PolloConPapa.jpg" alt="Pollo con Papa" class="pollo-side" id="pollo-side">
+            <img src="TerroresDelMCDonald`s.jpeg" alt="MCDonald's" class="mc-side" id="mc-side">
         </div>
         
         <div class="yen-counter" id="yen-display">0</div>
