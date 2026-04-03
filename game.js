@@ -7,22 +7,9 @@ let polloPurchased = false;
 let autoStarted = false;
 let gameLoaded = false;
 
-let click2Price = 500;
-let auto2Price = 1000;
-let boostPrice = 2500;
-let achievements = {
-    ach100: false,
-    ach1000: false,
-    ach10000: false,
-    ach100000: false,
-    achMillon: false
-};
-
 const yenDisplay = document.getElementById('yen-display');
 const clickPowerDisplay = document.getElementById('click-power');
 const autoRateDisplay = document.getElementById('auto-rate');
-const priceClickDisplay = document.getElementById('price-click');
-const priceAutoDisplay = document.getElementById('price-auto');
 const clickArea = document.getElementById('click-area');
 const particlesContainer = document.getElementById('particles');
 
@@ -34,11 +21,7 @@ function saveGame() {
         clickPrice: clickPrice,
         autoPrice: autoPrice,
         polloPurchased: polloPurchased,
-        autoStarted: autoStarted,
-        click2Price: click2Price,
-        auto2Price: auto2Price,
-        boostPrice: boostPrice,
-        achievements: achievements
+        autoStarted: autoStarted
     };
     localStorage.setItem('tomiokaClickerSave', JSON.stringify(gameData));
 }
@@ -54,86 +37,26 @@ function loadGame() {
         autoPrice = data.autoPrice || 120;
         polloPurchased = data.polloPurchased || false;
         autoStarted = data.autoStarted || false;
-        click2Price = data.click2Price || 500;
-        auto2Price = data.auto2Price || 1000;
-        boostPrice = data.boostPrice || 2500;
-        achievements = data.achievements || achievements;
         
-        priceClickDisplay.textContent = `${clickPrice.toLocaleString()} ¥`;
-        priceAutoDisplay.textContent = `${autoPrice.toLocaleString()} ¥`;
-        
-        if (document.getElementById('price-click2')) {
-            document.getElementById('price-click2').textContent = `${click2Price.toLocaleString()} ¥`;
+        if (document.getElementById('price-click')) {
+            document.getElementById('price-click').textContent = `${clickPrice.toLocaleString()} ¥`;
         }
-        if (document.getElementById('price-auto2')) {
-            document.getElementById('price-auto2').textContent = `${auto2Price.toLocaleString()} ¥`;
-        }
-        if (document.getElementById('price-boost')) {
-            document.getElementById('price-boost').textContent = `${boostPrice.toLocaleString()} ¥`;
+        if (document.getElementById('price-auto')) {
+            document.getElementById('price-auto').textContent = `${autoPrice.toLocaleString()} ¥`;
         }
         
         if (polloPurchased) {
             document.getElementById('pollo-side').classList.add('unlocked');
-            document.getElementById('upgrade-pollo').classList.add('hidden');
+            const shopPolloCard = document.getElementById('shop-pollo');
+            if (shopPolloCard) shopPolloCard.style.display = 'none';
         }
         
         if (autoStarted) {
             startAutoClick();
         }
         
-        loadAchievements();
-        
         gameLoaded = true;
     }
-}
-
-function loadAchievements() {
-    if (achievements.ach100) document.getElementById('ach-100').classList.add('unlocked');
-    if (achievements.ach1000) document.getElementById('ach-1000').classList.add('unlocked');
-    if (achievements.ach10000) document.getElementById('ach-10000').classList.add('unlocked');
-    if (achievements.ach100000) document.getElementById('ach-100000').classList.add('unlocked');
-    if (achievements.achMillon) document.getElementById('ach-millon').classList.add('unlocked');
-}
-
-function checkAchievements() {
-    if (yen >= 100 && !achievements.ach100) {
-        achievements.ach100 = true;
-        document.getElementById('ach-100').classList.add('unlocked');
-        showAchievementToast('💯 ¡Primer objetivo alcanzado! 100 Yenes');
-    }
-    if (yen >= 1000 && !achievements.ach1000) {
-        achievements.ach1000 = true;
-        document.getElementById('ach-1000').classList.add('unlocked');
-        showAchievementToast('🧧 ¡Milenario! 1,000 Yenes');
-    }
-    if (yen >= 10000 && !achievements.ach10000) {
-        achievements.ach10000 = true;
-        document.getElementById('ach-10000').classList.add('unlocked');
-        showAchievementToast('💰 ¡Imparable! 10,000 Yenes');
-    }
-    if (yen >= 100000 && !achievements.ach100000) {
-        achievements.ach100000 = true;
-        document.getElementById('ach-100000').classList.add('unlocked');
-        showAchievementToast('👑 ¡Maestro Clicker! 100,000 Yenes');
-    }
-    if (yen >= 1000000 && !achievements.achMillon) {
-        achievements.achMillon = true;
-        document.getElementById('ach-millon').classList.add('unlocked');
-        showAchievementToast('🏆 ¡LEYENDA! 1 Millón de Yenes');
-    }
-}
-
-function showAchievementToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'achievement-toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => toast.classList.add('show'), 100);
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 500);
-    }, 3000);
 }
 
 function createParticles() {
@@ -198,26 +121,23 @@ function updateDisplay() {
     autoRateDisplay.textContent = autoRate;
     
     updateCardStates();
-    checkAchievements();
     saveGame();
 }
 
 function updateCardStates() {
     const clickCard = document.getElementById('upgrade-click');
     const autoCard = document.getElementById('upgrade-auto');
-    const polloCard = document.getElementById('upgrade-pollo');
-    const click2Card = document.getElementById('upgrade-click2');
-    const auto2Card = document.getElementById('upgrade-auto2');
-    const boostCard = document.getElementById('upgrade-boost');
+    const shopClickCard = document.getElementById('shop-click');
+    const shopAutoCard = document.getElementById('shop-auto');
+    const shopPolloCard = document.getElementById('shop-pollo');
     
-    clickCard.classList.toggle('disabled', yen < clickPrice);
-    autoCard.classList.toggle('disabled', yen < autoPrice);
-    if (!polloPurchased) {
-        polloCard.classList.toggle('disabled', yen < 300);
+    if (clickCard) clickCard.classList.toggle('disabled', yen < clickPrice);
+    if (autoCard) autoCard.classList.toggle('disabled', yen < autoPrice);
+    if (shopClickCard) shopClickCard.classList.toggle('disabled', yen < clickPrice);
+    if (shopAutoCard) shopAutoCard.classList.toggle('disabled', yen < autoPrice);
+    if (!polloPurchased && shopPolloCard) {
+        shopPolloCard.classList.toggle('disabled', yen < 300);
     }
-    if (click2Card) click2Card.classList.toggle('disabled', yen < click2Price);
-    if (auto2Card) auto2Card.classList.toggle('disabled', yen < auto2Price);
-    if (boostCard) boostCard.classList.toggle('disabled', yen < boostPrice);
 }
 
 function clickTomioka(e) {
@@ -249,7 +169,7 @@ function buyUpgrade(type) {
             yen -= clickPrice;
             clickPower *= 2;
             clickPrice *= 2;
-            priceClickDisplay.textContent = `${clickPrice.toLocaleString()} ¥`;
+            document.getElementById('price-click').textContent = `${clickPrice.toLocaleString()} ¥`;
             updateDisplay();
         }
     } else if (type === 'auto') {
@@ -263,7 +183,7 @@ function buyUpgrade(type) {
                 autoRate *= 2;
             }
             autoPrice *= 2;
-            priceAutoDisplay.textContent = `${autoPrice.toLocaleString()} ¥`;
+            document.getElementById('price-auto').textContent = `${autoPrice.toLocaleString()} ¥`;
             updateDisplay();
         }
     } else if (type === 'pollo') {
@@ -271,32 +191,9 @@ function buyUpgrade(type) {
             yen -= 300;
             polloPurchased = true;
             document.getElementById('pollo-side').classList.add('unlocked');
-            document.getElementById('upgrade-pollo').classList.add('hidden');
+            const shopPolloCard = document.getElementById('shop-pollo');
+            if (shopPolloCard) shopPolloCard.style.display = 'none';
             clickPower += 5;
-            updateDisplay();
-        }
-    } else if (type === 'click2') {
-        if (yen >= click2Price) {
-            yen -= click2Price;
-            clickPower *= 3;
-            click2Price *= 3;
-            document.getElementById('price-click2').textContent = `${click2Price.toLocaleString()} ¥`;
-            updateDisplay();
-        }
-    } else if (type === 'auto2') {
-        if (yen >= auto2Price) {
-            yen -= auto2Price;
-            autoRate *= 3;
-            auto2Price *= 3;
-            document.getElementById('price-auto2').textContent = `${auto2Price.toLocaleString()} ¥`;
-            updateDisplay();
-        }
-    } else if (type === 'boost') {
-        if (yen >= boostPrice) {
-            yen -= boostPrice;
-            clickPower += 50;
-            boostPrice *= 2;
-            document.getElementById('price-boost').textContent = `${boostPrice.toLocaleString()} ¥`;
             updateDisplay();
         }
     }

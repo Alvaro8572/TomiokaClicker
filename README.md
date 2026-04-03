@@ -5,6 +5,7 @@ Un juego clicker web ultra estético y moderno con temática de Giyu Tomioka (De
 ## Características
 
 - **Diseño Premium**: Interfaz elegante con efectos de partículas de agua, glows y tipografía moderna
+- **Tienda Modal**: Acceso a mejoras desde un modal emergente
 - **Sistema de Mejoras**:
   - ×2 Click - Duplica tu poder de click
   - ×2 Auto Click - Generación automática de Yenes por segundo
@@ -15,8 +16,9 @@ Un juego clicker web ultra estético y moderno con temática de Giyu Tomioka (De
 ## Cómo Jugar
 
 1. Click en la imagen de Tomioka para ganar Yenes
-2. Compra mejoras para aumentar tus ganancias
-3. ¡Desbloquea el Pollo con Papa para una bonificación extra!
+2. Presiona el botón "🛒 TIENDA" para abrir la tienda
+3. Compra mejoras para aumentar tus ganancias
+4. ¡Desbloquea el Pollo con Papa para una bonificación extra!
 
 ## Tecnologías
 
