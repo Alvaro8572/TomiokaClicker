@@ -263,6 +263,22 @@
             display: none;
         }
 
+        .tokito-side {
+            position: absolute;
+            left: 10%;
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: pulse-glow 3s ease-in-out infinite;
+            display: none;
+        }
+
+        .tokito-side.unlocked {
+            display: block;
+        }
+
         .pollo-side.unlocked {
             display: block;
         }
@@ -511,6 +527,11 @@
                         <div class="shop-name">Pollo con Papa</div>
                         <div class="shop-price">300 ¥</div>
                     </div>
+                    <div class="shop-card" id="shop-tokito" onclick="buyUpgrade('tokito')">
+                        <div class="shop-icon"><img src="TomiokaTokito.jpeg" alt="Tokito"></div>
+                        <div class="shop-name">Tokito +10 Auto</div>
+                        <div class="shop-price">2000 ¥</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -523,6 +544,7 @@
         <h1 class="title">TOMIOKA CLICKER</h1>
         
         <div class="center-container">
+            <img src="TomiokaTokito.jpeg" alt="Tokito" class="tokito-side" id="tokito-side">
             <div class="tomioka-container" id="click-area">
                 <img src="Tomioka.jpg" alt="Giyu Tomioka" class="tomioka-image">
             </div>
