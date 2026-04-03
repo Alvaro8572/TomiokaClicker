@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomioka Clicker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0a0f;
+        }
+
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            filter: brightness(0.6) saturate(1.2);
+            z-index: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                rgba(10, 20, 40, 0.7) 0%,
+                rgba(5, 15, 35, 0.5) 50%,
+                rgba(0, 10, 25, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float-up linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.6)) drop-shadow(0 0 40px rgba(0, 150, 255, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.8)) drop-shadow(0 0 60px rgba(0, 150, 255, 0.5));
+            }
+        }
+
+        .game-container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00d4ff;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 150, 255, 0.4);
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        .center-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tomioka-container {
+            position: relative;
+            cursor: pointer;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .tomioka-image {
+            width: 240px;
+            height: auto;
+            border-radius: 16px;
+            transition: transform 0.1s ease;
+        }
+
+        .pollo-side {
+            position: absolute;
+            right: 10%;
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: pulse-glow 3s ease-in-out infinite;
+            animation-delay: 1.5s;
+            display: none;
+        }
+
+        .pollo-side.unlocked {
+            display: block;
+        }
+
+        .pollo-side:hover {
+            transform: scale(1.1);
+        }
+
+        .pollo-side:active {
+            transform: scale(0.95);
+        }
+
+        .tomioka-container:active .tomioka-image {
+            transform: scale(0.95);
+        }
+
+        .click-effect {
+            position: absolute;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+            pointer-events: none;
+            animation: click-pop 0.8s ease-out forwards;
+        }
+
+        @keyframes click-pop {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(1.5);
+            }
+        }
+
+        .yen-counter {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 150, 255, 0.5);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .yen-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            color: rgba(0, 212, 255, 0.7);
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+        }
+
+        .upgrades-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        .upgrade-card {
+            background: linear-gradient(145deg, 
+                rgba(10, 30, 60, 0.8) 0%,
+                rgba(5, 20, 45, 0.9) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+            width: 170px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .upgrade-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 8px 30px rgba(0, 150, 255, 0.3), 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .upgrade-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .upgrade-card.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .upgrade-card.hidden {
+            display: none;
+        }
+
+        .upgrade-icon {
+            width: 45px;
+            height: 45px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.2), rgba(0, 212, 255, 0.1));
+            border-radius: 10px;
+            font-size: 22px;
+        }
+
+        .upgrade-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .upgrade-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .upgrade-price {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(0, 100, 200, 0.5), rgba(0, 150, 255, 0.3));
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 18px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ffcc;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.5rem;
+            }
+            .center-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .tomioka-image {
+                width: 180px;
+            }
+            .pollo-side {
+                width: 90px;
+                height: 90px;
+            }
+            .yen-counter {
+                font-size: 2rem;
+            }
+            .upgrades-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .upgrade-card {
+                width: 100%;
+                max-width: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="CicloDelAgua.jpg" id="background" alt="Ciclo del Agua">
+    <div class="overlay"></div>
+    
+    <div class="particles-container" id="particles"></div>
+
+    <div class="game-container">
+        <h1 class="title">TOMIOKA CLICKER</h1>
+        
+        <div class="center-container">
+            <div class="tomioka-container" id="click-area">
+                <img src="Tomioka.jpg" alt="Giyu Tomioka" class="tomioka-image">
+            </div>
+            <img src="PolloConPapa.jpg" alt="Pollo con Papa" class="pollo-side" id="pollo-side">
+        </div>
+        
+        <div class="yen-counter" id="yen-display">0</div>
+        <div class="yen-label">¥ YENES</div>
+
+        <div class="upgrades-container">
+            <div class="upgrade-card" id="upgrade-click" onclick="buyUpgrade('click')">
+                <div class="upgrade-icon">⚔️</div>
+                <div class="upgrade-name">×2 Click</div>
+                <div class="upgrade-price" id="price-click">50 ¥</div>
+            </div>
+
+            <div class="upgrade-card" id="upgrade-auto" onclick="buyUpgrade('auto')">
+                <div class="upgrade-icon">💧</div>
+                <div class="upgrade-name">×2 Auto Click</div>
+                <div class="upgrade-price" id="price-auto">120 ¥</div>
+            </div>
+
+            <div class="upgrade-card" id="upgrade-pollo" onclick="buyUpgrade('pollo')">
+                <div class="upgrade-icon"><img src="PolloConPapa.jpg" alt="Pollo con Papa"></div>
+                <div class="upgrade-name">Pollo con Papa</div>
+                <div class="upgrade-price">300 ¥</div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="click-power">1</div>
+                <div class="stat-label">CLICK POWER</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="auto-rate">0</div>
+                <div class="stat-label">¥ / SEC</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
