@@ -170,7 +170,8 @@ function updateDisplay() {
     
     updateCardStates();
     
-    if (document.getElementById('rebirth-modal').classList.contains('active')) {
+    const rebirthModal = document.getElementById('rebirth-modal');
+    if (rebirthModal && rebirthModal.classList.contains('active')) {
         updateRebirthDisplay();
     }
     
