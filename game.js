@@ -6,6 +6,9 @@ let autoPrice = 75;
 let polloPurchased = false;
 let tokitoPurchased = false;
 let mcPurchased = false;
+let rengokuPurchased = false;
+let sabitoPurchased = false;
+let waterDrops = 0;
 let autoStarted = false;
 let gameLoaded = false;
 
@@ -25,6 +28,9 @@ function saveGame() {
         polloPurchased: polloPurchased,
         tokitoPurchased: tokitoPurchased,
         mcPurchased: mcPurchased,
+        rengokuPurchased: rengokuPurchased,
+        sabitoPurchased: sabitoPurchased,
+        waterDrops: waterDrops,
         autoStarted: autoStarted
     };
     localStorage.setItem('tomiokaClickerSave', JSON.stringify(gameData));
@@ -42,6 +48,9 @@ function loadGame() {
         polloPurchased = data.polloPurchased || false;
         tokitoPurchased = data.tokitoPurchased || false;
         mcPurchased = data.mcPurchased || false;
+        rengokuPurchased = data.rengokuPurchased || false;
+        sabitoPurchased = data.sabitoPurchased || false;
+        waterDrops = data.waterDrops || 0;
         autoStarted = data.autoStarted || false;
         
         if (document.getElementById('price-click')) {
@@ -67,6 +76,16 @@ function loadGame() {
             document.getElementById('mc-side').classList.add('unlocked');
             const shopMcCard = document.getElementById('shop-mc');
             if (shopMcCard) shopMcCard.style.display = 'none';
+        }
+        
+        if (rengokuPurchased) {
+            const shopRengokuCard = document.getElementById('shop-rengoku');
+            if (shopRengokuCard) shopRengokuCard.classList.add('purchased');
+        }
+        
+        if (sabitoPurchased) {
+            const shopSabitoCard = document.getElementById('shop-sabito');
+            if (shopSabitoCard) shopSabitoCard.classList.add('purchased');
         }
         
         if (autoStarted) {
@@ -138,6 +157,9 @@ function updateDisplay() {
     clickPowerDisplay.textContent = clickPower;
     autoRateDisplay.textContent = autoRate;
     
+    const dropsDisplay = document.getElementById('shop-drops-display');
+    if (dropsDisplay) dropsDisplay.textContent = waterDrops;
+    
     updateCardStates();
     saveGame();
 }
@@ -164,10 +186,29 @@ function updateCardStates() {
     if (!mcPurchased && shopMcCard) {
         shopMcCard.classList.toggle('disabled', yen < 10000);
     }
+    
+    const shopRengokuCard = document.getElementById('shop-rengoku');
+    const shopSabitoCard = document.getElementById('shop-sabito');
+    
+    if (shopRengokuCard) {
+        if (rengokuPurchased) {
+            shopRengokuCard.classList.add('purchased');
+        } else {
+            shopRengokuCard.classList.toggle('disabled', waterDrops < 5);
+        }
+    }
+    if (shopSabitoCard) {
+        if (sabitoPurchased) {
+            shopSabitoCard.classList.add('purchased');
+        } else {
+            shopSabitoCard.classList.toggle('disabled', waterDrops < 10);
+        }
+    }
 }
 
 function clickTomioka(e) {
     yen += clickPower;
+    waterDrops += 1;
     updateDisplay();
     
     const rect = clickArea.getBoundingClientRect();
@@ -240,6 +281,20 @@ function buyUpgrade(type) {
             const shopMcCard = document.getElementById('shop-mc');
             if (shopMcCard) shopMcCard.style.display = 'none';
             clickPower += 20;
+            updateDisplay();
+        }
+    } else if (type === 'rengoku') {
+        if (!rengokuPurchased && waterDrops >= 5) {
+            waterDrops -= 5;
+            rengokuPurchased = true;
+            autoRate += 50;
+            updateDisplay();
+        }
+    } else if (type === 'sabito') {
+        if (!sabitoPurchased && waterDrops >= 10) {
+            waterDrops -= 10;
+            sabitoPurchased = true;
+            clickPower *= 3;
             updateDisplay();
         }
     }

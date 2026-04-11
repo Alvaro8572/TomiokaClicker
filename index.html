@@ -121,7 +121,6 @@
         }
 
         .shop-name {
-            flex: 1;
             font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
             color: #00d4ff;
@@ -516,6 +515,77 @@
             font-size: 0.8rem;
         }
 
+        .shop-section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(0, 212, 255, 0.5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+        }
+
+        .shop-desc {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 2px;
+        }
+
+        .shop-name-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .shop-drops-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            color: rgba(0, 212, 255, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .shop-drops-header span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: #00d4ff;
+            font-weight: 700;
+        }
+
+        .shop-card.water {
+            border-color: rgba(0, 180, 255, 0.5);
+            background: linear-gradient(145deg, rgba(0, 30, 70, 0.85), rgba(0, 15, 50, 0.95));
+        }
+
+        .shop-card.water:hover {
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 0 25px rgba(0, 180, 255, 0.35);
+        }
+
+        .shop-price.water {
+            background: linear-gradient(135deg, rgba(0, 80, 180, 0.6), rgba(0, 140, 255, 0.4));
+            border: 1px solid rgba(0, 212, 255, 0.6);
+            color: #00ffee;
+        }
+
+        .shop-card.purchased {
+            opacity: 0.55;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .shop-card.purchased .shop-price {
+            background: rgba(0, 80, 0, 0.4);
+            border: 1px solid rgba(0, 200, 100, 0.4);
+            color: #00ff88;
+        }
+
         @media (max-width: 768px) {
             .title {
                 font-size: 1.5rem;
@@ -596,31 +666,68 @@
             <div class="shop-content">
                 <button class="shop-close" onclick="closeShop()">×</button>
                 <h2 class="shop-title">🛒 TIENDA</h2>
+                <div class="shop-drops-header">
+                    💧 Gotas de Agua: <span id="shop-drops-display">0</span>
+                </div>
                 <div class="shop-upgrades">
+                    <div class="shop-section-title">Mejoras básicas</div>
                     <div class="shop-card" id="shop-click" onclick="buyUpgrade('click')">
                         <div class="shop-icon">⚔️</div>
-                        <div class="shop-name">×2 Click</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">×2 Click</div>
+                            <div class="shop-desc">Dobla tu poder por click</div>
+                        </div>
                         <div class="shop-price" id="price-click">50 ¥</div>
                     </div>
                     <div class="shop-card" id="shop-auto" onclick="buyUpgrade('auto')">
                         <div class="shop-icon">💧</div>
-                        <div class="shop-name">×2 Auto Click</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">×2 Auto Click</div>
+                            <div class="shop-desc">Dobla la generación pasiva</div>
+                        </div>
                         <div class="shop-price" id="price-auto">75 ¥</div>
                     </div>
+                    <div class="shop-section-title">Mejoras únicas</div>
                     <div class="shop-card" id="shop-pollo" onclick="buyUpgrade('pollo')">
                         <div class="shop-icon"><img src="PolloConPapa.jpg" alt="Pollo"></div>
-                        <div class="shop-name">Pollo con Papa</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">Pollo con Papa</div>
+                            <div class="shop-desc">+5 por click</div>
+                        </div>
                         <div class="shop-price">300 ¥</div>
                     </div>
                     <div class="shop-card" id="shop-tokito" onclick="buyUpgrade('tokito')">
                         <div class="shop-icon"><img src="TomiokaTokito.jpeg" alt="Tokito"></div>
-                        <div class="shop-name">Tokito +10 Auto</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">Tokito</div>
+                            <div class="shop-desc">+10 auto click / seg</div>
+                        </div>
                         <div class="shop-price">2000 ¥</div>
                     </div>
                     <div class="shop-card" id="shop-mc" onclick="buyUpgrade('mc')">
                         <div class="shop-icon"><img src="TerroresDelMCDonald`s.jpeg" alt="MCDonald's"></div>
-                        <div class="shop-name">MCDonald's +20</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">MCDonald's</div>
+                            <div class="shop-desc">+20 auto click / seg</div>
+                        </div>
                         <div class="shop-price">10000 ¥</div>
+                    </div>
+                    <div class="shop-section-title">💧 Santuario del Agua</div>
+                    <div class="shop-card water" id="shop-rengoku" onclick="buyUpgrade('rengoku')">
+                        <div class="shop-icon">🔥</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">Rengoku</div>
+                            <div class="shop-desc">+50 auto click permanente</div>
+                        </div>
+                        <div class="shop-price water" id="price-rengoku">5 💧</div>
+                    </div>
+                    <div class="shop-card water" id="shop-sabito" onclick="buyUpgrade('sabito')">
+                        <div class="shop-icon">🦊</div>
+                        <div class="shop-name-wrap">
+                            <div class="shop-name">Sabito</div>
+                            <div class="shop-desc">×3 click permanente</div>
+                        </div>
+                        <div class="shop-price water" id="price-sabito">10 💧</div>
                     </div>
                 </div>
             </div>
