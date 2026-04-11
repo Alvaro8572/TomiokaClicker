@@ -327,6 +327,14 @@ function startAutoClick() {
 
 clickArea.addEventListener('click', clickTomioka);
 
+function openShop() {
+    document.getElementById('shop-modal').classList.add('active');
+}
+
+function closeShop() {
+    document.getElementById('shop-modal').classList.remove('active');
+}
+
 function openRebirth() {
     document.getElementById('rebirth-modal').classList.add('active');
     updateRebirthDisplay();
@@ -400,6 +408,17 @@ function doRebirth() {
         if (shopPolloCard) shopPolloCard.style.display = 'flex';
         if (shopTokitoCard) shopTokitoCard.style.display = 'flex';
         if (shopMcCard) shopMcCard.style.display = 'flex';
+        
+        const shopRengokuCard = document.getElementById('shop-rengoku');
+        const shopSabitoCard = document.getElementById('shop-sabito');
+        if (rengokuPurchased && shopRengokuCard) {
+            shopRengokuCard.classList.add('purchased');
+            document.getElementById('rengoku-side').classList.add('unlocked');
+        }
+        if (sabitoPurchased && shopSabitoCard) {
+            shopSabitoCard.classList.add('purchased');
+            document.getElementById('sabito-side').classList.add('unlocked');
+        }
         
         rebirthThreshold = rebirthLevel >= 3 ? rebirthThreshold : rebirthThreshold * 3;
         
