@@ -342,6 +342,7 @@ function updateRebirthDisplay() {
     document.getElementById('rebirth-drops-display').textContent = waterDrops;
     document.getElementById('rebirth-current-yen').textContent = Math.floor(yen).toLocaleString();
     document.getElementById('rebirth-threshold').textContent = rebirthThreshold.toLocaleString();
+    document.getElementById('rebirth-current-level').textContent = rebirthLevel;
     
     const progress = Math.min((yen / rebirthThreshold) * 100, 100);
     document.getElementById('rebirth-progress-fill').style.width = `${progress}%`;

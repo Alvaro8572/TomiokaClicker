@@ -707,6 +707,109 @@
                 font-size: 0.8rem;
             }
         }
+
+        .rebirth-msg-maxed {
+            display: none;
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(0, 255, 150, 0.8);
+            margin-bottom: 12px;
+        }
+
+        .rebirth-objectives {
+            background: rgba(0, 100, 50, 0.15);
+            border: 1px solid rgba(0, 200, 100, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+
+        .rebirth-objectives-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #00ff88;
+            margin-bottom: 8px;
+        }
+
+        .rebirth-objectives-content {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(150, 255, 200, 0.8);
+            line-height: 1.5;
+        }
+
+        .rebirth-rewards-section {
+            background: rgba(0, 80, 150, 0.15);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 12px 0;
+        }
+
+        .rebirth-rewards-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .rebirth-rewards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .rebirth-reward-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .rebirth-reward-num {
+            background: rgba(0, 150, 255, 0.3);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00d4ff;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .rebirth-reward-name {
+            flex: 1;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .rebirth-reward-amount {
+            color: #00ffaa;
+            font-weight: 700;
+        }
+
+        .rebirth-current-section {
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        .rebirth-current-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 6px;
+        }
+
+        .rebirth-current-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -785,7 +888,7 @@
         </div>
 
         <div class="shop-modal" id="rebirth-modal">
-            <div class="shop-content">
+            <div class="shop-content" style="max-width: 450px;">
                 <button class="shop-close" onclick="closeRebirth()">×</button>
                 <h2 class="shop-title">💧 RENACIMIENTO</h2>
                 <div class="shop-drops-header">
@@ -798,20 +901,42 @@
                 <div class="rebirth-progress-bar">
                     <div class="rebirth-progress-fill" id="rebirth-progress-fill"></div>
                 </div>
-                <div class="rebirth-reward">Recompensa: <span id="rebirth-reward-drops">3</span> 💧</div>
-                <div class="rebirth-reward-sub" id="rebirth-reward-desc">Primer Renacimiento · Despertar del Agua</div>
-                <div class="rebirth-warning">
-                    <strong>Se perderá al renacer:</strong><br>
-                    · Todos los Yenes acumulados<br>
-                    · ×2 Click, ×2 Auto Click<br>
-                    · Pollo con Papa, Tokito, McDonald's<br>
-                    · Tomioka y Shinobu
+                
+                <div class="rebirth-objectives">
+                    <div class="rebirth-objectives-title">🎯 Objetivos del Renacimiento</div>
+                    <div class="rebirth-objectives-content">
+                        · Reiniciar mejoras básicas<br>
+                        · Reiniciar Yenes<br>
+                        · Conservar: Gotas 💧, Rengoku, Sabito
+                    </div>
                 </div>
-                <div class="rebirth-keep">
-                    <strong>Se conserva siempre:</strong><br>
-                    · Gotas de Agua y mejoras compradas con ellas<br>
-                    · Rengoku y Sabito si ya los tienes
+                
+                <div class="rebirth-rewards-section">
+                    <div class="rebirth-rewards-title">💎 Recompensas</div>
+                    <div class="rebirth-rewards-list">
+                        <div class="rebirth-reward-item">
+                            <span class="rebirth-reward-num">1</span>
+                            <span class="rebirth-reward-name">Despertar del Agua</span>
+                            <span class="rebirth-reward-amount">+3 💧</span>
+                        </div>
+                        <div class="rebirth-reward-item">
+                            <span class="rebirth-reward-num">2</span>
+                            <span class="rebirth-reward-name">Energía Shinobu</span>
+                            <span class="rebirth-reward-amount">+5 💧</span>
+                        </div>
+                        <div class="rebirth-reward-item">
+                            <span class="rebirth-reward-num">3</span>
+                            <span class="rebirth-reward-name">Iluminación Hashira</span>
+                            <span class="rebirth-reward-amount">+10 💧</span>
+                        </div>
+                    </div>
                 </div>
+                
+                <div class="rebirth-current-section">
+                    <div class="rebirth-current-title">🌊 Renacimientos Realizados</div>
+                    <div class="rebirth-current-value" id="rebirth-current-level">0</div>
+                </div>
+                
                 <div id="rebirth-msg-insufficient">Necesitas <span id="rebirth-missing-yen">10,000</span> ¥ más para renacer</div>
                 <div id="rebirth-msg-maxed">✓ Has alcanzado la Iluminación del Hashira</div>
                 <button class="rebirth-confirm-btn" id="rebirth-confirm-btn" onclick="doRebirth()" disabled>💧 Realizar Renacimiento</button>
