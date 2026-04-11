@@ -700,6 +700,12 @@
             .shop-price {
                 font-size: 0.85rem;
             }
+            .rebirth-btn {
+                top: 55px;
+                right: 10px;
+                padding: 7px 14px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -778,10 +784,45 @@
             </div>
         </div>
 
+        <div class="shop-modal" id="rebirth-modal">
+            <div class="shop-content">
+                <button class="shop-close" onclick="closeRebirth()">×</button>
+                <h2 class="shop-title">💧 RENACIMIENTO</h2>
+                <div class="shop-drops-header">
+                    💧 Gotas de Agua: <span id="rebirth-drops-display">0</span>
+                </div>
+                <div class="rebirth-label">Nivel de renacimiento</div>
+                <div class="rebirth-value" id="rebirth-level-display">0 / 3</div>
+                <div class="rebirth-label">Progreso hacia el siguiente renacimiento</div>
+                <div class="rebirth-value"><span id="rebirth-current-yen">0</span> / <span id="rebirth-threshold">10,000</span> ¥</div>
+                <div class="rebirth-progress-bar">
+                    <div class="rebirth-progress-fill" id="rebirth-progress-fill"></div>
+                </div>
+                <div class="rebirth-reward">Recompensa: <span id="rebirth-reward-drops">3</span> 💧</div>
+                <div class="rebirth-reward-sub" id="rebirth-reward-desc">Primer Renacimiento · Despertar del Agua</div>
+                <div class="rebirth-warning">
+                    <strong>Se perderá al renacer:</strong><br>
+                    · Todos los Yenes acumulados<br>
+                    · ×2 Click, ×2 Auto Click<br>
+                    · Pollo con Papa, Tokito, McDonald's<br>
+                    · Tomioka y Shinobu
+                </div>
+                <div class="rebirth-keep">
+                    <strong>Se conserva siempre:</strong><br>
+                    · Gotas de Agua y mejoras compradas con ellas<br>
+                    · Rengoku y Sabito si ya los tienes
+                </div>
+                <div id="rebirth-msg-insufficient">Necesitas <span id="rebirth-missing-yen">10,000</span> ¥ más para renacer</div>
+                <div id="rebirth-msg-maxed">✓ Has alcanzado la Iluminación del Hashira</div>
+                <button class="rebirth-confirm-btn" id="rebirth-confirm-btn" onclick="doRebirth()" disabled>💧 Realizar Renacimiento</button>
+            </div>
+        </div>
+
         <div class="particles-container" id="particles"></div>
 
     <div class="game-container">
         <button class="shop-btn" onclick="openShop()">🛒 TIENDA</button>
+        <button class="rebirth-btn" onclick="openRebirth()">💧 RENACIMIENTO · Nv. <span id="rebirth-level-btn">0</span></button>
         
         <h1 class="title">TOMIOKA CLICKER</h1>
         
@@ -815,15 +856,6 @@
         </div>
     </div>
 
-    <script>
-        function openShop() {
-            document.getElementById('shop-modal').classList.add('active');
-        }
-        
-        function closeShop() {
-            document.getElementById('shop-modal').classList.remove('active');
-        }
-    </script>
     <script src="game.js"></script>
 </body>
 </html>

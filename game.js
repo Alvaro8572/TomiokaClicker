@@ -9,6 +9,8 @@ let mcPurchased = false;
 let rengokuPurchased = false;
 let sabitoPurchased = false;
 let waterDrops = 0;
+let rebirthLevel = 0;
+let rebirthThreshold = 10000;
 let autoStarted = false;
 let gameLoaded = false;
 
@@ -31,6 +33,8 @@ function saveGame() {
         rengokuPurchased: rengokuPurchased,
         sabitoPurchased: sabitoPurchased,
         waterDrops: waterDrops,
+        rebirthLevel: rebirthLevel,
+        rebirthThreshold: rebirthThreshold,
         autoStarted: autoStarted
     };
     localStorage.setItem('tomiokaClickerSave', JSON.stringify(gameData));
@@ -51,6 +55,8 @@ function loadGame() {
         rengokuPurchased = data.rengokuPurchased || false;
         sabitoPurchased = data.sabitoPurchased || false;
         waterDrops = data.waterDrops || 0;
+        rebirthLevel = data.rebirthLevel || 0;
+        rebirthThreshold = data.rebirthThreshold || 10000;
         autoStarted = data.autoStarted || false;
         
         if (document.getElementById('price-click')) {
@@ -163,6 +169,11 @@ function updateDisplay() {
     if (dropsDisplay) dropsDisplay.textContent = waterDrops;
     
     updateCardStates();
+    
+    if (document.getElementById('rebirth-modal').classList.contains('active')) {
+        updateRebirthDisplay();
+    }
+    
     saveGame();
 }
 
@@ -314,6 +325,87 @@ function startAutoClick() {
 }
 
 clickArea.addEventListener('click', clickTomioka);
+
+function openRebirth() {
+    document.getElementById('rebirth-modal').classList.add('active');
+    updateRebirthDisplay();
+}
+
+function closeRebirth() {
+    document.getElementById('rebirth-modal').classList.remove('active');
+}
+
+function updateRebirthDisplay() {
+    document.getElementById('rebirth-level-btn').textContent = rebirthLevel;
+    document.getElementById('rebirth-level-display').textContent = `${rebirthLevel} / 3`;
+    document.getElementById('rebirth-drops-display').textContent = waterDrops;
+    document.getElementById('rebirth-current-yen').textContent = Math.floor(yen).toLocaleString();
+    document.getElementById('rebirth-threshold').textContent = rebirthThreshold.toLocaleString();
+    
+    const progress = Math.min((yen / rebirthThreshold) * 100, 100);
+    document.getElementById('rebirth-progress-fill').style.width = `${progress}%`;
+    
+    const missing = Math.max(rebirthThreshold - Math.floor(yen), 0);
+    document.getElementById('rebirth-missing-yen').textContent = missing.toLocaleString();
+    
+    const confirmBtn = document.getElementById('rebirth-confirm-btn');
+    const msgInsufficient = document.getElementById('rebirth-msg-insufficient');
+    const msgMaxed = document.getElementById('rebirth-msg-maxed');
+    
+    if (rebirthLevel >= 3) {
+        msgInsufficient.style.display = 'none';
+        msgMaxed.style.display = 'block';
+        confirmBtn.disabled = true;
+    } else if (yen >= rebirthThreshold) {
+        msgInsufficient.style.display = 'none';
+        msgMaxed.style.display = 'none';
+        confirmBtn.disabled = false;
+    } else {
+        msgInsufficient.style.display = 'block';
+        msgMaxed.style.display = 'none';
+        confirmBtn.disabled = true;
+    }
+    
+    const rewards = [3, 5, 10];
+    document.getElementById('rebirth-reward-drops').textContent = rewards[rebirthLevel] || 0;
+    
+    const descs = ['Primer Renacimiento · Desawak del Agua', 'Segundo Renacimiento · Energía Shinobu', 'Tercer Renacimiento · Iluminación Hashira'];
+    document.getElementById('rebirth-reward-desc').textContent = descs[rebirthLevel] || '';
+}
+
+function doRebirth() {
+    if (yen >= rebirthThreshold && rebirthLevel < 3) {
+        const rewards = [3, 5, 10];
+        waterDrops += rewards[rebirthLevel];
+        rebirthLevel++;
+        
+        yen = 0;
+        clickPower = 1;
+        autoRate = 0;
+        clickPrice = 50;
+        autoPrice = 75;
+        polloPurchased = false;
+        tokitoPurchased = false;
+        mcPurchased = false;
+        
+        document.getElementById('pollo-side').classList.remove('unlocked');
+        document.getElementById('tokito-side').classList.remove('unlocked');
+        document.getElementById('mc-side').classList.remove('unlocked');
+        
+        const shopPolloCard = document.getElementById('shop-pollo');
+        const shopTokitoCard = document.getElementById('shop-tokito');
+        const shopMcCard = document.getElementById('shop-mc');
+        if (shopPolloCard) shopPolloCard.style.display = 'flex';
+        if (shopTokitoCard) shopTokitoCard.style.display = 'flex';
+        if (shopMcCard) shopMcCard.style.display = 'flex';
+        
+        rebirthThreshold = rebirthLevel >= 3 ? rebirthThreshold : rebirthThreshold * 3;
+        
+        closeRebirth();
+        updateDisplay();
+        saveGame();
+    }
+}
 
 loadGame();
 createParticles();
