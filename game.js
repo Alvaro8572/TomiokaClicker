@@ -79,11 +79,13 @@ function loadGame() {
         }
         
         if (rengokuPurchased) {
+            document.getElementById('rengoku-side').classList.add('unlocked');
             const shopRengokuCard = document.getElementById('shop-rengoku');
             if (shopRengokuCard) shopRengokuCard.classList.add('purchased');
         }
         
         if (sabitoPurchased) {
+            document.getElementById('sabito-side').classList.add('unlocked');
             const shopSabitoCard = document.getElementById('shop-sabito');
             if (shopSabitoCard) shopSabitoCard.classList.add('purchased');
         }
@@ -287,6 +289,7 @@ function buyUpgrade(type) {
         if (!rengokuPurchased && waterDrops >= 5) {
             waterDrops -= 5;
             rengokuPurchased = true;
+            document.getElementById('rengoku-side').classList.add('unlocked');
             autoRate += 50;
             updateDisplay();
         }
@@ -294,6 +297,7 @@ function buyUpgrade(type) {
         if (!sabitoPurchased && waterDrops >= 10) {
             waterDrops -= 10;
             sabitoPurchased = true;
+            document.getElementById('sabito-side').classList.add('unlocked');
             clickPower *= 3;
             updateDisplay();
         }

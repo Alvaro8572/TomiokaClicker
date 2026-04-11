@@ -274,6 +274,41 @@
             display: none;
         }
 
+        .rengoku-side {
+            position: absolute;
+            left: 22%;
+            width: 130px;
+            height: 130px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: pulse-glow 3s ease-in-out infinite;
+            animation-delay: 0.5s;
+            display: none;
+        }
+
+        .rengoku-side.unlocked {
+            display: block;
+        }
+
+        .sabito-side {
+            position: absolute;
+            left: 34%;
+            width: 130px;
+            height: 130px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: pulse-glow 3s ease-in-out infinite;
+            animation-delay: 1s;
+            display: none;
+        }
+
+        .sabito-side.unlocked {
+            display: block;
+        }
+        }
+
         .mc-side {
             position: absolute;
             right: 10%;
@@ -609,6 +644,16 @@
                 width: 70px;
                 height: 70px;
             }
+            .rengoku-side {
+                left: 25%;
+                width: 70px;
+                height: 70px;
+            }
+            .sabito-side {
+                left: 45%;
+                width: 70px;
+                height: 70px;
+            }
             .pollo-side {
                 right: 5%;
                 width: 70px;
@@ -714,7 +759,7 @@
                     </div>
                     <div class="shop-section-title">💧 Santuario del Agua</div>
                     <div class="shop-card water" id="shop-rengoku" onclick="buyUpgrade('rengoku')">
-                        <div class="shop-icon">🔥</div>
+                        <div class="shop-icon"><img src="Rengoku.jpg" alt="Rengoku"></div>
                         <div class="shop-name-wrap">
                             <div class="shop-name">Rengoku</div>
                             <div class="shop-desc">+50 auto click permanente</div>
@@ -722,7 +767,7 @@
                         <div class="shop-price water" id="price-rengoku">5 💧</div>
                     </div>
                     <div class="shop-card water" id="shop-sabito" onclick="buyUpgrade('sabito')">
-                        <div class="shop-icon">🦊</div>
+                        <div class="shop-icon"><img src="Sabito.jpg" alt="Sabito"></div>
                         <div class="shop-name-wrap">
                             <div class="shop-name">Sabito</div>
                             <div class="shop-desc">×3 click permanente</div>
@@ -742,6 +787,8 @@
         
         <div class="center-container">
             <img src="TomiokaTokito.jpeg" alt="Tokito" class="tokito-side" id="tokito-side">
+            <img src="Rengoku.jpg" alt="Rengoku" class="rengoku-side" id="rengoku-side">
+            <img src="Sabito.jpg" alt="Sabito" class="sabito-side" id="sabito-side">
             <div class="tomioka-container" id="click-area">
                 <img src="Tomioka.jpg" alt="Giyu Tomioka" class="tomioka-image">
             </div>
