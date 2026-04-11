@@ -540,11 +540,11 @@
             position: fixed;
             top: 75px;
             right: 20px;
-            background: linear-gradient(135deg, rgba(0, 150, 255, 0.3), rgba(0, 212, 255, 0.2));
-            border: 1px solid rgba(0, 212, 255, 0.5);
+            background: linear-gradient(135deg, rgba(80, 40, 0, 0.3), rgba(120, 60, 0, 0.2));
+            border: 1px solid rgba(255, 160, 0, 0.5);
             border-radius: 12px;
             padding: 12px 24px;
-            color: #00d4ff;
+            color: rgba(255, 180, 0, 0.9);
             font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
             cursor: pointer;
@@ -553,9 +553,134 @@
         }
 
         .rebirth-btn:hover {
-            background: linear-gradient(135deg, rgba(0, 150, 255, 0.5), rgba(0, 212, 255, 0.4));
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            border-color: rgba(255, 160, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.4);
             transform: scale(1.05);
+        }
+
+        .rebirth-modal-inner {
+            max-width: 360px;
+            margin: auto;
+            background: linear-gradient(180deg, rgba(15, 10, 5, 0.98), rgba(5, 5, 5, 0.99));
+            border: 1px solid rgba(255, 160, 0, 0.35);
+            border-radius: 20px;
+            padding: 28px;
+            position: relative;
+        }
+
+        .rebirth-icon-header {
+            text-align: center;
+            margin-bottom: 16px;
+            font-size: 52px;
+        }
+
+        .rebirth-main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+
+        .rebirth-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 160, 0, 0.7);
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .rebirth-req-block {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .rebirth-req-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .rebirth-req-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .rebirth-req-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .rebirth-req-check {
+            font-size: 1rem;
+        }
+
+        .rebirth-req-check.green {
+            color: #00ff88;
+        }
+
+        .rebirth-req-check.red {
+            color: rgba(255, 80, 80, 0.8);
+        }
+
+        .rebirth-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 20px 0;
+        }
+
+        .rebirth-confirm-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #c47a00, #ff9f00);
+        }
+
+        .rebirth-confirm-btn:disabled {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .rebirth-reward-line {
+            text-align: center;
+            margin-bottom: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255, 160, 0, 0.8);
+        }
+
+        .rebirth-maxed-msg {
+            display: none;
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            color: rgba(0, 255, 140, 0.85);
+            padding: 16px;
+            background: rgba(0, 100, 50, 0.15);
+            border-radius: 10px;
+            margin-bottom: 16px;
         }
 
         .stat-label {
@@ -916,58 +1041,31 @@
         </div>
 
         <div class="shop-modal" id="rebirth-modal">
-            <div class="shop-content" style="max-width: 450px;">
+            <div class="rebirth-modal-inner">
                 <button class="shop-close" onclick="closeRebirth()">×</button>
-                <h2 class="shop-title">💧 RENACIMIENTO</h2>
-                <div class="shop-drops-header">
-                    💧 Gotas de Agua: <span id="rebirth-drops-display">0</span>
-                </div>
-                <div class="rebirth-label">Nivel de renacimiento</div>
-                <div class="rebirth-value" id="rebirth-level-display">0 / 3</div>
-                <div class="rebirth-label">Progreso hacia el siguiente renacimiento</div>
-                <div class="rebirth-value"><span id="rebirth-current-yen">0</span> / <span id="rebirth-threshold">10,000</span> ¥</div>
-                <div class="rebirth-progress-bar">
-                    <div class="rebirth-progress-fill" id="rebirth-progress-fill"></div>
-                </div>
+                <div class="rebirth-icon-header">⭐</div>
+                <div class="rebirth-main-title">RENACIMIENTO</div>
+                <div class="rebirth-subtitle" id="rebirth-subtitle-level">NIVEL 0 → 1</div>
                 
-                <div class="rebirth-objectives">
-                    <div class="rebirth-objectives-title">🎯 Objetivos del Renacimiento</div>
-                    <div class="rebirth-objectives-content">
-                        · Reiniciar mejoras básicas<br>
-                        · Reiniciar Yenes<br>
-                        · Conservar: Gotas 💧, Rengoku, Sabito
+                <div class="rebirth-req-block">
+                    <div class="rebirth-req-row">
+                        <span class="rebirth-req-label">💰 Yenes necesarios</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="rebirth-req-value" id="rebirth-req-yen-value">10,000 ¥</span>
+                            <span class="rebirth-req-check" id="rebirth-req-yen-check">✗</span>
+                        </div>
+                    </div>
+                    <div class="rebirth-req-row" id="rebirth-req-level-row" style="display: none;">
+                        <span class="rebirth-req-label">⭐ Nivel anterior completado</span>
+                        <span class="rebirth-req-check green" id="rebirth-req-level-check">✓</span>
                     </div>
                 </div>
                 
-                <div class="rebirth-rewards-section">
-                    <div class="rebirth-rewards-title">💎 Recompensas</div>
-                    <div class="rebirth-rewards-list">
-                        <div class="rebirth-reward-item">
-                            <span class="rebirth-reward-num">1</span>
-                            <span class="rebirth-reward-name">Despertar del Agua</span>
-                            <span class="rebirth-reward-amount">+3 💧</span>
-                        </div>
-                        <div class="rebirth-reward-item">
-                            <span class="rebirth-reward-num">2</span>
-                            <span class="rebirth-reward-name">Energía Shinobu</span>
-                            <span class="rebirth-reward-amount">+5 💧</span>
-                        </div>
-                        <div class="rebirth-reward-item">
-                            <span class="rebirth-reward-num">3</span>
-                            <span class="rebirth-reward-name">Iluminación Hashira</span>
-                            <span class="rebirth-reward-amount">+10 💧</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="rebirth-divider"></div>
                 
-                <div class="rebirth-current-section">
-                    <div class="rebirth-current-title">🌊 Renacimientos Realizados</div>
-                    <div class="rebirth-current-value" id="rebirth-current-level">0</div>
-                </div>
-                
-                <div id="rebirth-msg-insufficient">Necesitas <span id="rebirth-missing-yen">10,000</span> ¥ más para renacer</div>
-                <div id="rebirth-msg-maxed">✓ Has alcanzado la Iluminación del Hashira</div>
-                <button class="rebirth-confirm-btn" id="rebirth-confirm-btn" onclick="doRebirth()" disabled>💧 Realizar Renacimiento</button>
+                <div class="rebirth-reward-line" id="rebirth-reward-line">Recompensa: 3 💧 Gotas de Agua</div>
+                <div class="rebirth-maxed-msg" id="rebirth-maxed-msg">⭐ Iluminación del Hashira alcanzada — nivel máximo</div>
+                <button class="rebirth-confirm-btn" id="rebirth-confirm-btn" onclick="doRebirth()" disabled>⭐ RENACER AHORA</button>
             </div>
         </div>
 

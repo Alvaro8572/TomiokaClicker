@@ -346,41 +346,54 @@ function closeRebirth() {
 
 function updateRebirthDisplay() {
     document.getElementById('rebirth-level-btn').textContent = rebirthLevel;
-    document.getElementById('rebirth-level-display').textContent = `${rebirthLevel} / 3`;
+    document.getElementById('shop-drops-display').textContent = waterDrops;
     document.getElementById('rebirth-drops-display').textContent = waterDrops;
-    document.getElementById('rebirth-current-yen').textContent = Math.floor(yen).toLocaleString();
-    document.getElementById('rebirth-threshold').textContent = rebirthThreshold.toLocaleString();
-    document.getElementById('rebirth-current-level').textContent = rebirthLevel;
     
-    const progress = Math.min((yen / rebirthThreshold) * 100, 100);
-    document.getElementById('rebirth-progress-fill').style.width = `${progress}%`;
+    // Subtitle level
+    const nextLevel = rebirthLevel >= 3 ? rebirthLevel : rebirthLevel + 1;
+    document.getElementById('rebirth-subtitle-level').textContent = `NIVEL ${rebirthLevel} → ${nextLevel}`;
     
-    const missing = Math.max(rebirthThreshold - Math.floor(yen), 0);
-    document.getElementById('rebirth-missing-yen').textContent = missing.toLocaleString();
-    
-    const confirmBtn = document.getElementById('rebirth-confirm-btn');
-    const msgInsufficient = document.getElementById('rebirth-msg-insufficient');
-    const msgMaxed = document.getElementById('rebirth-msg-maxed');
-    
-    if (rebirthLevel >= 3) {
-        msgInsufficient.style.display = 'none';
-        msgMaxed.style.display = 'block';
-        confirmBtn.disabled = true;
-    } else if (yen >= rebirthThreshold) {
-        msgInsufficient.style.display = 'none';
-        msgMaxed.style.display = 'none';
-        confirmBtn.disabled = false;
+    // Yenes required
+    document.getElementById('rebirth-req-yen-value').textContent = `${rebirthThreshold.toLocaleString()} ¥`;
+    const yenCheck = document.getElementById('rebirth-req-yen-check');
+    if (yen >= rebirthThreshold) {
+        yenCheck.textContent = '✓';
+        yenCheck.className = 'rebirth-req-check green';
     } else {
-        msgInsufficient.style.display = 'block';
-        msgMaxed.style.display = 'none';
-        confirmBtn.disabled = true;
+        yenCheck.textContent = '✗';
+        yenCheck.className = 'rebirth-req-check red';
     }
     
-    const rewards = [3, 5, 10];
-    document.getElementById('rebirth-reward-drops').textContent = rewards[rebirthLevel] || 0;
+    // Level requirement (only show if level > 0)
+    const levelRow = document.getElementById('rebirth-req-level-row');
+    if (rebirthLevel > 0) {
+        levelRow.style.display = 'flex';
+    } else {
+        levelRow.style.display = 'none';
+    }
     
-    const descs = ['Primer Renacimiento · Desawak del Agua', 'Segundo Renacimiento · Energía Shinobu', 'Tercer Renacimiento · Iluminación Hashira'];
-    document.getElementById('rebirth-reward-desc').textContent = descs[rebirthLevel] || '';
+    // Reward line
+    const rewards = [3, 5, 10];
+    const reward = rewards[rebirthLevel] || 0;
+    document.getElementById('rebirth-reward-line').textContent = `Recompensa: ${reward} 💧 Gotas de Agua`;
+    
+    // Maxed message and button
+    const confirmBtn = document.getElementById('rebirth-confirm-btn');
+    const maxedMsg = document.getElementById('rebirth-maxed-msg');
+    
+    if (rebirthLevel >= 3) {
+        maxedMsg.style.display = 'block';
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = '⭐ ILUMINACIÓN ALCANZADA';
+    } else if (yen >= rebirthThreshold) {
+        maxedMsg.style.display = 'none';
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = '⭐ RENACER AHORA';
+    } else {
+        maxedMsg.style.display = 'none';
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = '⭐ RENACER AHORA';
+    }
 }
 
 function doRebirth() {
