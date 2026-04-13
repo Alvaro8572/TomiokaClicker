@@ -298,6 +298,11 @@ function buyUpgrade(type) {
             waterDrops -= 5;
             rengokuPurchased = true;
             document.getElementById('rengoku-side').classList.add('unlocked');
+            const shopRengokuCard = document.getElementById('shop-rengoku');
+            if (shopRengokuCard) {
+                shopRengokuCard.classList.add('purchased');
+                shopRengokuCard.style.display = 'none';
+            }
             autoRate += 50;
             updateDisplay();
         }
@@ -306,6 +311,11 @@ function buyUpgrade(type) {
             waterDrops -= 10;
             sabitoPurchased = true;
             document.getElementById('sabito-side').classList.add('unlocked');
+            const shopSabitoCard = document.getElementById('shop-sabito');
+            if (shopSabitoCard) {
+                shopSabitoCard.classList.add('purchased');
+                shopSabitoCard.style.display = 'none';
+            }
             clickPower *= 3;
             updateDisplay();
         }
