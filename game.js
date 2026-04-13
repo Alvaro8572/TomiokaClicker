@@ -222,7 +222,6 @@ function updateCardStates() {
 
 function clickTomioka(e) {
     yen += clickPower;
-    waterDrops += 1;
     updateDisplay();
     
     const rect = clickArea.getBoundingClientRect();
