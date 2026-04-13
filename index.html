@@ -683,6 +683,37 @@
             margin-bottom: 16px;
         }
 
+        .reset-warning {
+            background: rgba(200, 50, 0, 0.15);
+            border: 1px solid rgba(255, 80, 80, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 16px 0;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 120, 100, 0.9);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .reset-confirm-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #cc0000, #ff3333);
+        }
+
+        .reset-confirm-btn:hover {
+            background: linear-gradient(135deg, #ff2222, #ff5555);
+        }
+
         .stat-label {
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.6);
@@ -1075,7 +1106,39 @@
             </div>
         </div>
 
-        <button class="reset-btn" onclick="resetGame()">🗑️ Eliminar Progreso</button>
+        <button class="reset-btn" onclick="openResetModal()">🗑️ Eliminar Progreso</button>
+
+        <div class="shop-modal" id="reset-modal">
+            <div class="rebirth-modal-inner">
+                <button class="shop-close" onclick="closeResetModal()">×</button>
+                <div class="rebirth-icon-header">⚠️</div>
+                <div class="rebirth-main-title">ADVERTENCIA</div>
+                <div class="rebirth-subtitle">¿Eliminar todo el progreso?</div>
+                
+                <div class="rebirth-req-block">
+                    <div class="rebirth-req-row">
+                        <span class="rebirth-req-label">💰 Yenes</span>
+                        <span class="rebirth-req-value" id="reset-yen">0</span>
+                    </div>
+                    <div class="rebirth-req-row">
+                        <span class="rebirth-req-label">💧 Gotas de Agua</span>
+                        <span class="rebirth-req-value" id="reset-drops">0</span>
+                    </div>
+                    <div class="rebirth-req-row">
+                        <span class="rebirth-req-label">⭐ Renacimientos</span>
+                        <span class="rebirth-req-value" id="reset-rebirth">0</span>
+                    </div>
+                </div>
+                
+                <div class="rebirth-divider"></div>
+                
+                <div class="reset-warning">
+                    Se eliminará TODO el progreso. Esta acción no se puede deshacer.
+                </div>
+                
+                <button class="reset-confirm-btn" onclick="resetGame()">🗑️ ELIMINAR TODO</button>
+            </div>
+        </div>
 
         <div class="footer">
             <p>Tomioka Clicker v1.0</p>

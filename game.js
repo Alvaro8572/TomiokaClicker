@@ -87,13 +87,19 @@ function loadGame() {
         if (rengokuPurchased) {
             document.getElementById('rengoku-side').classList.add('unlocked');
             const shopRengokuCard = document.getElementById('shop-rengoku');
-            if (shopRengokuCard) shopRengokuCard.classList.add('purchased');
+            if (shopRengokuCard) {
+                shopRengokuCard.classList.add('purchased');
+                shopRengokuCard.style.display = 'none';
+            }
         }
         
         if (sabitoPurchased) {
             document.getElementById('sabito-side').classList.add('unlocked');
             const shopSabitoCard = document.getElementById('shop-sabito');
-            if (shopSabitoCard) shopSabitoCard.classList.add('purchased');
+            if (shopSabitoCard) {
+                shopSabitoCard.classList.add('purchased');
+                shopSabitoCard.style.display = 'none';
+            }
         }
         
         if (autoStarted) {
@@ -355,11 +361,9 @@ function updateRebirthDisplay() {
     document.getElementById('shop-drops-display').textContent = waterDrops;
     document.getElementById('rebirth-drops-display').textContent = waterDrops;
     
-    // Subtitle level
     const nextLevel = rebirthLevel >= 3 ? rebirthLevel : rebirthLevel + 1;
     document.getElementById('rebirth-subtitle-level').textContent = `NIVEL ${rebirthLevel} → ${nextLevel}`;
     
-    // Yenes required
     document.getElementById('rebirth-req-yen-value').textContent = `${rebirthThreshold.toLocaleString()} ¥`;
     const yenCheck = document.getElementById('rebirth-req-yen-check');
     if (yen >= rebirthThreshold) {
@@ -370,7 +374,6 @@ function updateRebirthDisplay() {
         yenCheck.className = 'rebirth-req-check red';
     }
     
-    // Level requirement (only show if level > 0)
     const levelRow = document.getElementById('rebirth-req-level-row');
     if (rebirthLevel > 0) {
         levelRow.style.display = 'flex';
@@ -378,12 +381,10 @@ function updateRebirthDisplay() {
         levelRow.style.display = 'none';
     }
     
-    // Reward line
     const rewards = [3, 5, 10];
     const reward = rewards[rebirthLevel] || 0;
     document.getElementById('rebirth-reward-line').textContent = `Recompensa: ${reward} 💧 Gotas de Agua`;
     
-    // Maxed message and button
     const confirmBtn = document.getElementById('rebirth-confirm-btn');
     const maxedMsg = document.getElementById('rebirth-maxed-msg');
     
@@ -432,10 +433,12 @@ function doRebirth() {
         const shopSabitoCard = document.getElementById('shop-sabito');
         if (rengokuPurchased && shopRengokuCard) {
             shopRengokuCard.classList.add('purchased');
+            shopRengokuCard.style.display = 'none';
             document.getElementById('rengoku-side').classList.add('unlocked');
         }
         if (sabitoPurchased && shopSabitoCard) {
             shopSabitoCard.classList.add('purchased');
+            shopSabitoCard.style.display = 'none';
             document.getElementById('sabito-side').classList.add('unlocked');
         }
         
@@ -448,50 +451,60 @@ function doRebirth() {
 }
 
 function resetGame() {
-    if (confirm('¿Estás seguro de eliminar TODO el progreso? Esta acción no se puede deshacer.')) {
-        localStorage.removeItem('tomiokaClickerSave');
-        
-        yen = 0;
-        clickPower = 1;
-        autoRate = 0;
-        clickPrice = 50;
-        autoPrice = 75;
-        polloPurchased = false;
-        tokitoPurchased = false;
-        mcPurchased = false;
-        rengokuPurchased = false;
-        sabitoPurchased = false;
-        waterDrops = 0;
-        rebirthLevel = 0;
-        rebirthThreshold = 10000;
-        autoStarted = false;
-        
-        document.getElementById('pollo-side').classList.remove('unlocked');
-        document.getElementById('tokito-side').classList.remove('unlocked');
-        document.getElementById('mc-side').classList.remove('unlocked');
-        document.getElementById('rengoku-side').classList.remove('unlocked');
-        document.getElementById('sabito-side').classList.remove('unlocked');
-        
-        const shopPolloCard = document.getElementById('shop-pollo');
-        const shopTokitoCard = document.getElementById('shop-tokito');
-        const shopMcCard = document.getElementById('shop-mc');
-        const shopRengokuCard = document.getElementById('shop-rengoku');
-        const shopSabitoCard = document.getElementById('shop-sabito');
-        
-        if (shopPolloCard) shopPolloCard.style.display = 'flex';
-        if (shopTokitoCard) shopTokitoCard.style.display = 'flex';
-        if (shopMcCard) shopMcCard.style.display = 'flex';
-        if (shopRengokuCard) {
-            shopRengokuCard.classList.remove('purchased');
-            shopRengokuCard.style.display = 'flex';
-        }
-        if (shopSabitoCard) {
-            shopSabitoCard.classList.remove('purchased');
-            shopSabitoCard.style.display = 'flex';
-        }
-        
-        updateDisplay();
+    localStorage.removeItem('tomiokaClickerSave');
+    
+    yen = 0;
+    clickPower = 1;
+    autoRate = 0;
+    clickPrice = 50;
+    autoPrice = 75;
+    polloPurchased = false;
+    tokitoPurchased = false;
+    mcPurchased = false;
+    rengokuPurchased = false;
+    sabitoPurchased = false;
+    waterDrops = 0;
+    rebirthLevel = 0;
+    rebirthThreshold = 10000;
+    autoStarted = false;
+    
+    document.getElementById('pollo-side').classList.remove('unlocked');
+    document.getElementById('tokito-side').classList.remove('unlocked');
+    document.getElementById('mc-side').classList.remove('unlocked');
+    document.getElementById('rengoku-side').classList.remove('unlocked');
+    document.getElementById('sabito-side').classList.remove('unlocked');
+    
+    const shopPolloCard = document.getElementById('shop-pollo');
+    const shopTokitoCard = document.getElementById('shop-tokito');
+    const shopMcCard = document.getElementById('shop-mc');
+    const shopRengokuCard = document.getElementById('shop-rengoku');
+    const shopSabitoCard = document.getElementById('shop-sabito');
+    
+    if (shopPolloCard) shopPolloCard.style.display = 'flex';
+    if (shopTokitoCard) shopTokitoCard.style.display = 'flex';
+    if (shopMcCard) shopMcCard.style.display = 'flex';
+    if (shopRengokuCard) {
+        shopRengokuCard.classList.remove('purchased');
+        shopRengokuCard.style.display = 'flex';
     }
+    if (shopSabitoCard) {
+        shopSabitoCard.classList.remove('purchased');
+        shopSabitoCard.style.display = 'flex';
+    }
+    
+    closeResetModal();
+    updateDisplay();
+}
+
+function openResetModal() {
+    document.getElementById('reset-yen').textContent = Math.floor(yen).toLocaleString();
+    document.getElementById('reset-drops').textContent = waterDrops;
+    document.getElementById('reset-rebirth').textContent = rebirthLevel;
+    document.getElementById('reset-modal').classList.add('active');
+}
+
+function closeResetModal() {
+    document.getElementById('reset-modal').classList.remove('active');
 }
 
 loadGame();
