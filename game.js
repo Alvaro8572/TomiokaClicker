@@ -165,9 +165,6 @@ function updateDisplay() {
     clickPowerDisplay.textContent = clickPower;
     autoRateDisplay.textContent = autoRate;
     
-    const dropsDisplay = document.getElementById('shop-drops-display');
-    if (dropsDisplay) dropsDisplay.textContent = waterDrops;
-    
     updateCardStates();
     
     const rebirthModal = document.getElementById('rebirth-modal');
@@ -437,6 +434,53 @@ function doRebirth() {
         closeRebirth();
         updateDisplay();
         saveGame();
+    }
+}
+
+function resetGame() {
+    if (confirm('¿Estás seguro de eliminar TODO el progreso? Esta acción no se puede deshacer.')) {
+        localStorage.removeItem('tomiokaClickerSave');
+        
+        yen = 0;
+        clickPower = 1;
+        autoRate = 0;
+        clickPrice = 50;
+        autoPrice = 75;
+        polloPurchased = false;
+        tokitoPurchased = false;
+        mcPurchased = false;
+        rengokuPurchased = false;
+        sabitoPurchased = false;
+        waterDrops = 0;
+        rebirthLevel = 0;
+        rebirthThreshold = 10000;
+        autoStarted = false;
+        
+        document.getElementById('pollo-side').classList.remove('unlocked');
+        document.getElementById('tokito-side').classList.remove('unlocked');
+        document.getElementById('mc-side').classList.remove('unlocked');
+        document.getElementById('rengoku-side').classList.remove('unlocked');
+        document.getElementById('sabito-side').classList.remove('unlocked');
+        
+        const shopPolloCard = document.getElementById('shop-pollo');
+        const shopTokitoCard = document.getElementById('shop-tokito');
+        const shopMcCard = document.getElementById('shop-mc');
+        const shopRengokuCard = document.getElementById('shop-rengoku');
+        const shopSabitoCard = document.getElementById('shop-sabito');
+        
+        if (shopPolloCard) shopPolloCard.style.display = 'flex';
+        if (shopTokitoCard) shopTokitoCard.style.display = 'flex';
+        if (shopMcCard) shopMcCard.style.display = 'flex';
+        if (shopRengokuCard) {
+            shopRengokuCard.classList.remove('purchased');
+            shopRengokuCard.style.display = 'flex';
+        }
+        if (shopSabitoCard) {
+            shopSabitoCard.classList.remove('purchased');
+            shopSabitoCard.style.display = 'flex';
+        }
+        
+        updateDisplay();
     }
 }
 

@@ -698,6 +698,25 @@
             font-size: 0.8rem;
         }
 
+        .reset-btn {
+            margin-top: 15px;
+            background: rgba(255, 50, 50, 0.15);
+            border: 1px solid rgba(255, 80, 80, 0.4);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: rgba(255, 100, 100, 0.8);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 50, 50, 0.3);
+            border-color: rgba(255, 80, 80, 0.6);
+            color: rgba(255, 150, 150, 1);
+        }
+
         .shop-section-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 0.75rem;
@@ -1055,6 +1074,8 @@
                 <div class="stat-label">¥ / SEC</div>
             </div>
         </div>
+
+        <button class="reset-btn" onclick="resetGame()">🗑️ Eliminar Progreso</button>
 
         <div class="footer">
             <p>Tomioka Clicker v1.0</p>
